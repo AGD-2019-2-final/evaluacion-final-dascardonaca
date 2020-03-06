@@ -33,3 +33,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+z= FOREACH u GENERATE surname;
+SPLIT z INTO z IF surname < 'L', x IF surname > 'L';
+SPLIT z INTO z IF surname >= 'D', x IF surname < 'D';
+--z= FOREACH z GENERATE surname, STRSPLIT(surname, '');
+
+STORE z INTO 'output' USING PigStorage(',');

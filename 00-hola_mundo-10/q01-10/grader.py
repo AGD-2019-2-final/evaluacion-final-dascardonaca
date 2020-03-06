@@ -26,5 +26,5 @@ FAIL, _ = RESULT                         # fail, total
 if FAIL == 0:                            # grading
     open('_SUCCESS', 'a').close()        #
 else:
-    print('\n')
+    print('AAAA\n')
 #--------------------------------------------------------------------------------------------------

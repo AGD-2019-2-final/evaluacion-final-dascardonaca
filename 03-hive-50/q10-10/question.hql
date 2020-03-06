@@ -24,3 +24,14 @@ LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
 
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY ':'
+MAP KEYS TERMINATED BY '#'
+SELECT key, count(1)
+FROM
+t0
+    LATERAL VIEW
+    explode(c3) t0 AS key, val
+    GROUP BY key;

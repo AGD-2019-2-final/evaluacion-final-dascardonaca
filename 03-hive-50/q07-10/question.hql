@@ -39,5 +39,13 @@ LOAD DATA LOCAL INPATH 'tbl1.csv' INTO TABLE tbl1;
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY ':' 
+SELECT c2, collect_list(c1)
+FROM 
+    tbl0
+group by c2;
 
 

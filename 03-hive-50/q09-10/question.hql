@@ -39,3 +39,21 @@ LOAD DATA LOCAL INPATH 'tbl1.csv' INTO TABLE tbl1;
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+DROP TABLE IF EXISTS counts;
+CREATE TABLE counts
+AS
+SELECT tbl0.c1 as c1, tbl0.c2 as c2, tbl1.c4 as c4
+FROM 
+    tbl0 join tbl1 ON(tbl0.c1 = tbl1.c1);
+
+
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY ':' 
+MAP KEYS TERMINATED BY '#'
+SELECT c1, c2, c4
+from counts
+    LATERAL VIEW
+    explode(c4) counts AS c0, c4
+WHERE (C2 = C0);

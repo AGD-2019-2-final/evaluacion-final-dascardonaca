@@ -30,3 +30,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
 
+z = FOREACH u GENERATE ToDate(birthday, 'yyyy-mm-dd');
+z = FOREACH z GENERATE GetYear($0), SUBSTRING((chararray)GetYear($0), 2, 4) ;
+
+
+
+STORE z INTO 'output' USING PigStorage(',');

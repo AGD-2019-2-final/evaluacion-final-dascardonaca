@@ -20,3 +20,10 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+z = FOREACH u GENERATE ToDate(birthday, 'yyyy-MM-dd') as bday;
+z = FOREACH z GENERATE GetYear(bday) as year;
+z = GROUP z BY year;
+z= FOREACH z GENERATE FLATTEN(group), COUNT(z);
+
+
+STORE z INTO 'output' USING PigStorage(',');

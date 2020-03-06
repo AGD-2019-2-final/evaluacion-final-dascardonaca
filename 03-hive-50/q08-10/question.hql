@@ -42,3 +42,15 @@ LOAD DATA LOCAL INPATH 'tbl1.csv' INTO TABLE tbl1;
 --
 
 
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY ':' 
+SELECT c2, sum(c0)
+FROM 
+    tbl0
+    LATERAL VIEW
+    explode(map_values(c6)) tbl0 AS c0
+group by c2;
+
+

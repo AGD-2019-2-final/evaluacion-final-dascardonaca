@@ -25,4 +25,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+z = FOREACH u GENERATE FLATTEN(STRSPLIT(birthday, '-'));
+z= FOREACH z GENERATE $1;
 
+
+STORE z INTO 'output' USING PigStorage(',');

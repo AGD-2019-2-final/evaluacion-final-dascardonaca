@@ -28,4 +28,7 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+z = FOREACH u GENERATE firstname, color;
+x = FILTER z BY ( SIZE((chararray)REGEX_EXTRACT((color), (chararray)'[aeiou]$',0)) ==1);
 
+STORE x INTO 'output' USING PigStorage(',');

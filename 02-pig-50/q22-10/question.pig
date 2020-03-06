@@ -28,4 +28,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
-
+z = FOREACH u GENERATE firstname, color;
+--y = FOREACH z GENERATE (chararray)SUBSTRING(color, (int)SIZE(color)-2, (int)SIZE(color)-1) as (S:CHARARRAY);
+x = FILTER z BY (SUBSTRING(color, (int)(SIZE(color)-1), (int)(SIZE(color)-0))=='n');
+--z= FOREACH z GENERATE surname, STRSPLIT(surname, '');
+STORE x INTO 'output' USING PigStorage(',');

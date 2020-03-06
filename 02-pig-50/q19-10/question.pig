@@ -28,3 +28,7 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --        
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+z= FOREACH u GENERATE firstname, color;
+x = FILTER z BY (color >= 'b' AND color < 'c');
+--z= FOREACH z GENERATE surname, STRSPLIT(surname, '');
+STORE x INTO 'output' USING PigStorage(',');

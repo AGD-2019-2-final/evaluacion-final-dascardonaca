@@ -39,4 +39,21 @@ LOAD DATA LOCAL INPATH 'tbl1.csv' INTO TABLE tbl1;
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+DROP TABLE IF EXISTS counts;
+CREATE TABLE counts
+AS
+    SELECT  c0, YEAR(c4) as y
+    FROM
+        tbl0
+    LATERAL VIEW
+        explode(c5) tbl0 AS c0;
 
+
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' 
+    SELECT  y, c0, count(1)
+    FROM
+        counts
+GROUP BY c0, y
+ORDER BY y, c0;

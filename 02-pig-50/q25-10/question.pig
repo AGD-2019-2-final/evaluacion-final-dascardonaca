@@ -26,3 +26,11 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+z = FOREACH u GENERATE firstname, FLATTEN((STRSPLIT(firstname, 'a')));
+z = FOREACH z GENERATE $0 as firstname, $1 as subst;
+z = FOREACH z GENERATE SIZE((chararray)$0) as firstname, SIZE((chararray)$1) as subst;
+
+x = FOREACH z GENERATE ( firstname == subst ? -1:subst);
+
+
+STORE x INTO 'output' USING PigStorage(',');
